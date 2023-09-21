@@ -5,7 +5,7 @@ import os
 import sys
 import tempfile
 
-from args import ModelConfig
+from mmstereo.args import ModelConfig
 import torch
 
 from mmstereo.init.default_init import default_init
