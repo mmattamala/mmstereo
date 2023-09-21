@@ -5,8 +5,14 @@ import os
 import cv2
 from torch.utils.data import Dataset
 
-from data.loader_helper import LoaderHelper
-from data.sample import Sample, SampleElement, SampleMetadata, ElementType, ElementKeys
+from mmstereo.data.loader_helper import LoaderHelper
+from mmstereo.data.sample import (
+    Sample,
+    SampleElement,
+    SampleMetadata,
+    ElementType,
+    ElementKeys,
+)
 
 # Expected paths of sample elements.
 LEFT_DIR = "left"

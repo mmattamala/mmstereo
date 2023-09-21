@@ -8,7 +8,7 @@ import tempfile
 from args import ModelConfig
 import torch
 
-from init.default_init import default_init
+from mmstereo.init.default_init import default_init
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "models"))
 

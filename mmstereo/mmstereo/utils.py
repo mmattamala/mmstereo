@@ -4,8 +4,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from args import TrainingConfig
-from data.sample import ElementKeys
+from mmstereo.args import TrainingConfig
+from mmstereo.data.sample import ElementKeys
 
 
 def split_outputs(outputs):

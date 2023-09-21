@@ -28,9 +28,9 @@ RUN apt update -y && apt install git -y
 
 # Clone repo
 RUN cd /workspace/ && git clone ${BASE_REPO}
-RUN cd /workspace/mmstereo/mmstereo && pip install -e .
+RUN cd /workspace/mmstereo/ && pip install -e mmstereo/
 
-# Install requirements
+# # Install requirements
 RUN pip install virtualenv
 RUN pip install -r /workspace/mmstereo/requirements.txt
 

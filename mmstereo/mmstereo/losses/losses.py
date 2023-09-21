@@ -1,9 +1,9 @@
 # Copyright 2021 Toyota Research Institute.  All rights reserved.
 
-from args import TrainingConfig
-from losses.disparity_loss import DisparityLoss
-from losses.nsce_loss import NsceLoss
-from losses.smoothness_loss import SmoothnessLoss
+from mmstereo.args import TrainingConfig
+from mmstereo.losses.disparity_loss import DisparityLoss
+from mmstereo.losses.nsce_loss import NsceLoss
+from mmstereo.losses.smoothness_loss import SmoothnessLoss
 
 
 class Losses(object):

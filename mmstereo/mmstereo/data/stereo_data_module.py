@@ -7,10 +7,10 @@ import torch
 import torch.distributed
 from torch.utils.data import ConcatDataset, DataLoader, Subset, random_split
 
-from args import DataConfig, StageConfig, TransformConfig
-from data.sample import collate
-from data.stereo_dataset import StereoDataset
-from data.stereo_transforms import (
+from mmstereo.args import DataConfig, StageConfig, TransformConfig
+from mmstereo.data.sample import collate
+from mmstereo.data.stereo_dataset import StereoDataset
+from mmstereo.data.stereo_transforms import (
     RandomCrop,
     RandomHorizontalFlip,
     RandomColorJitter,

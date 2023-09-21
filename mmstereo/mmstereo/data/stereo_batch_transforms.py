@@ -2,8 +2,8 @@
 
 import random
 
-from data.sample import ElementKeys
-from data.camera_effects import compose
+from mmstereo.data.sample import ElementKeys
+from mmstereo.data.camera_effects import compose
 
 
 class CameraEffect(object):

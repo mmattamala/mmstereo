@@ -5,15 +5,15 @@ import random
 import pytorch_lightning as pl
 import torch
 
-from args import TrainingConfig
-import model_loader
-from data.sample import ElementKeys, SampleMetadata
-from data.stereo_batch_transforms import CameraEffect
-from losses.losses import Losses
-from metrics.metrics import Metrics
-from onnx.onnx_export import export_stereo_model
-from optim.poly_lr import lambda_poly_lr
-import visualization
+from mmstereo.args import TrainingConfig
+import mmstereo.model_loader as model_loader
+from mmstereo.data.sample import ElementKeys, SampleMetadata
+from mmstereo.data.stereo_batch_transforms import CameraEffect
+from mmstereo.losses.losses import Losses
+from mmstereo.metrics.metrics import Metrics
+from mmstereo.onnx.onnx_export import export_stereo_model
+from mmstereo.optim.poly_lr import lambda_poly_lr
+import mmstereo.visualization as visualization
 
 
 class StereoModel(pl.LightningModule):

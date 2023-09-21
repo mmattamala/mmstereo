@@ -8,19 +8,19 @@ from typing import Optional
 import torch
 import torch.nn as nn
 
-from layers.cost_volume import CostVolume
-from layers.hdc_functions import hdc_resnet_group
-from layers.residual_blocks import (
+from mmstereo.layers.cost_volume import CostVolume
+from mmstereo.layers.hdc_functions import hdc_resnet_group
+from mmstereo.layers.residual_blocks import (
     PreactBasicResidualBlock,
     ResidualBlock,
     resnet_shortcut,
 )
-from layers.residual_blocks import preact_resnet_group
-from layers.matchability import Matchability
-from layers.soft_argmin import SoftArgmin
-from layers.transition_blocks import TransitionBlock
+from mmstereo.layers.residual_blocks import preact_resnet_group
+from mmstereo.layers.matchability import Matchability
+from mmstereo.layers.soft_argmin import SoftArgmin
+from mmstereo.layers.transition_blocks import TransitionBlock
 
-import utils
+import mmstereo.utils as utils
 
 
 class LeakyPreactBasicResidualBlock(ResidualBlock):

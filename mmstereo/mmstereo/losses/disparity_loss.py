@@ -3,9 +3,9 @@
 import torch
 import torch.nn as nn
 
-from args import TrainingConfig
-from losses.loss_utils import null_loss, dummy_loss, valid_loss
-import utils
+from mmstereo.args import TrainingConfig
+from mmstereo.losses.loss_utils import null_loss, dummy_loss, valid_loss
+import mmstereo.utils as utils
 
 
 class DisparityLoss(nn.Module):

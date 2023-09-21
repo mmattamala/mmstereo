@@ -5,11 +5,11 @@ import copy
 import torch
 import torch.nn as nn
 
-from args import TrainingConfig
-from layers.cost_volume import CostVolume
-from layers.matchability import Matchability
-from layers.soft_argmin import SoftArgmin
-from onnx.onnx_plugins import (
+from mmstereo.args import TrainingConfig
+from mmstereo.layers.cost_volume import CostVolume
+from mmstereo.layers.matchability import Matchability
+from mmstereo.layers.soft_argmin import SoftArgmin
+from mmstereo.onnx.onnx_plugins import (
     ExportableCostVolume,
     ExportableMatchability,
     ExportableSoftArgmin,

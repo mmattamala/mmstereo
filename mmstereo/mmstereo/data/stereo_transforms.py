@@ -9,7 +9,7 @@ from PIL import Image
 import torch
 import torchvision
 
-from data.sample import ElementKeys, ElementType
+from mmstereo.data.sample import ElementKeys, ElementType
 
 
 class RandomCrop(object):

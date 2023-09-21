@@ -5,10 +5,10 @@ import numpy as np
 from pytorch_lightning.utilities import rank_zero_only
 import torch
 
-from args import TrainingConfig
-from data.sample import ElementKeys
-from logger_utils import get_tensorboard
-import utils
+from mmstereo.args import TrainingConfig
+from mmstereo.data.sample import ElementKeys
+from mmstereo.logger_utils import get_tensorboard
+import mmstereo.utils as utils
 
 
 def make_bgr_image(image, idx=0):

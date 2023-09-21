@@ -2,10 +2,10 @@
 
 import torch
 
-from args import TrainingConfig
-from metrics.disparity_correct import DisparityCorrect
-from metrics.disparity_error import DisparityError
-import utils
+from mmstereo.args import TrainingConfig
+from mmstereo.metrics.disparity_correct import DisparityCorrect
+from mmstereo.metrics.disparity_error import DisparityError
+import mmstereo.utils as utils
 
 
 class Metrics(object):
