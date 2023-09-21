@@ -7,9 +7,9 @@ import struct
 import torch
 import torch.nn as nn
 
-from layers.cost_volume import cost_volume
-from layers.matchability import matchability
-from layers.soft_argmin import soft_argmin
+from mmstereo.layers.cost_volume import cost_volume
+from mmstereo.layers.matchability import matchability
+from mmstereo.layers.soft_argmin import soft_argmin
 
 
 @torch.autograd.function.traceable
