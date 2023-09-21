@@ -24,7 +24,8 @@ ENV DEBIAN_frontend noninteractive
 # ==
 
 # Install basic packages
-RUN apt update -y && apt install git -y
+RUN apt update -y && apt install -y --no-install-recommends \
+    git libturbojpeg libgl1 libglib2.0-0
 
 # Clone repo
 RUN cd /workspace/ && git clone ${BASE_REPO}

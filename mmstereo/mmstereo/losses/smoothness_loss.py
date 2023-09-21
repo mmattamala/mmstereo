@@ -4,9 +4,9 @@ import kornia
 import torch.nn as nn
 import torch.nn.functional as F
 
-from args import TrainingConfig
-from losses.loss_utils import null_loss, valid_loss
-import utils
+from mmstereo.args import TrainingConfig
+from mmstereo.losses.loss_utils import null_loss, valid_loss
+import mmstereo.utils as utils
 
 
 class SmoothnessLoss(nn.Module):
