@@ -22,11 +22,11 @@ warnings.filterwarnings(
 from omegaconf import OmegaConf
 import pytorch_lightning as pl
 
-from args import TrainingConfig
-from callbacks import OnnxExport, TorchscriptExport
-from data.stereo_data_module import StereoDataModule
-from logger_utils import get_loggers
-from model import StereoModel
+from mmstereo.args import TrainingConfig
+from mmstereo.callbacks import OnnxExport, TorchscriptExport
+from mmstereo.data.stereo_data_module import StereoDataModule
+from mmstereo.logger_utils import get_loggers
+from mmstereo.model import StereoModel
 
 if __name__ == "__main__":
     # This seeds all random sources, including Python , Numpy, and PyTorch CPU and GPU.
