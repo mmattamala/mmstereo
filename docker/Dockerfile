@@ -9,15 +9,14 @@ ENV BASE_REPO=${BASE_REPO}
 LABEL maintainer="Matias Mattamala"
 LABEL contact="matias@robots.ox.ac.uk"
 LABEL description="Docker image to train and test mmstereo"
-LABEL example_usage="docker run -it --rm --net=host --runtime nvidia mmattamala:mmstereo-pytorch2.0"
+LABEL example_usage="docker run -it --rm --net=host --runtime nvidia mmattamala/mmstereo:pytorch2.0"
 
 # Terminal color
 SHELL ["/bin/bash", "--login", "-c"]
 ENV TERM=xterm-256color
 
 # To avoid tzdata asking for geographic location...
-ARG DEBIAN_FRONTEND=noninteractive
-ENV DEBIAN_frontend noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # ==
 # Installation
@@ -27,18 +26,19 @@ ENV DEBIAN_frontend noninteractive
 RUN apt update -y && apt install -y --no-install-recommends \
     git libturbojpeg libgl1 libglib2.0-0
 
-# Clone repo
-RUN cd /workspace/ && git clone ${BASE_REPO}
-RUN cd /workspace/mmstereo/ && pip install -e mmstereo/
+# # Clone repo
+# RUN cd /workspace/ && git clone ${BASE_REPO}
+# RUN cd /workspace/mmstereo/ && pip install -e mmstereo/
 
 # # Install requirements
-RUN pip install virtualenv
-RUN pip install -r /workspace/mmstereo/requirements.txt
+COPY ../requirements.txt /workspace/requirements.txt
+RUN pip install --no-cache-dir -r /workspace/requirements.txt && rm /workspace/requirements.txt
 
 # ==
 # Remove cache and extra files
 # ==
 RUN rm -rf /var/lib/apt/lists/* && apt-get clean
 
+ENV DEBIAN_FRONTEND=dialog
 CMD ["bash"]
-WORKDIR /workspace/
+WORKDIR /root/

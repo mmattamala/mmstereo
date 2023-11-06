@@ -21,6 +21,7 @@ warnings.filterwarnings(
 
 from omegaconf import OmegaConf
 import pytorch_lightning as pl
+import torch
 
 from mmstereo.args import TrainingConfig
 from mmstereo.callbacks import OnnxExport, TorchscriptExport
@@ -30,7 +31,7 @@ from mmstereo.model import StereoModel
 
 if __name__ == "__main__":
     # This seeds all random sources, including Python , Numpy, and PyTorch CPU and GPU.
-    pl.utilities.seed.seed_everything(12345)
+    torch.manual_seed(12345)
 
     parser = argparse.ArgumentParser(fromfile_prefix_chars="@")
     parser.add_argument("--config", type=str, required=True)
@@ -78,11 +79,13 @@ if __name__ == "__main__":
         callbacks.append(TorchscriptExport(checkpoint_dir, hparams.note))
 
     if hparams.distributed:
-        gpus = -1
-        accelerator = "ddp"
+        devices = -1
+        accelerator = "gpu"
+        strategy = "ddp"
     else:
-        gpus = [0]
-        accelerator = None
+        devices = [0]
+        accelerator = "gpu"
+        strategy = "auto"
 
     log_every_n_steps = 50
 
@@ -90,11 +93,12 @@ if __name__ == "__main__":
         callbacks=callbacks,
         logger=loggers,
         max_epochs=hparams.epochs,
-        gpus=gpus,
+        devices=devices,
         default_root_dir=root_dir,
         deterministic=False,
         precision=precision,
         accelerator=accelerator,
+        strategy=strategy,
         log_every_n_steps=log_every_n_steps,
     )
 

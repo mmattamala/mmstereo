@@ -21,7 +21,7 @@ data:
     num_workers: 4
 
 model:
-  model_file: models/hdrn_alpha_stereo.py
+  model_file: mmstereo/models/hdrn_alpha_stereo.py
   model_name: hdrn_alpha_stereo
   num_disparities: 256
   downsample_factor: 4

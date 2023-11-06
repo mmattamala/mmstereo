@@ -123,7 +123,7 @@ class TrainingConfig(object):
     export_onnx: bool = False
     """Automatically export Torchscript at end of validation each epoch, stored in the checkpoints directory"""
     export_torchscript: bool = False
-    """Train with multiple gpus using distributed data parallel"""
+    """Train with multiple gpus using distributed data pagpusrallel"""
     distributed: bool = False
     sync_bn: bool = False
 

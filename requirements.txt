@@ -27,7 +27,7 @@ pyasn1
 pyasn1-modules
 pyDeprecate
 pyparsing
-pytorch-lightning
+pytorch-lightning==2.0.9
 PyTurboJPEG
 PyYAML
 requests
@@ -37,7 +37,7 @@ six
 tensorboard
 tensorboard-data-server
 tensorboard-plugin-wit
-torch
+torch==2.0.1
 torchaudio
 torchmetrics
 torchvision
