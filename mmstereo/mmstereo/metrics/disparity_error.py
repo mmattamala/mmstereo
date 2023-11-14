@@ -8,7 +8,7 @@ class DisparityError(Metric):
     """Compute mean absolute error of output disparity compared to ground truth"""
 
     def __init__(self, dist_sync_on_step=False):
-        super().__init__(compute_on_step=False, dist_sync_on_step=dist_sync_on_step)
+        super().__init__(dist_sync_on_step=dist_sync_on_step)
 
         self.add_state(
             "error", default=torch.tensor(0, dtype=torch.float64), dist_reduce_fx="sum"

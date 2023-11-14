@@ -8,7 +8,7 @@ class DisparityCorrect(Metric):
     """Compute fraction of disparity outputs matches compared to ground truth within given threshold"""
 
     def __init__(self, threshold, dist_sync_on_step=False):
-        super().__init__(compute_on_step=False, dist_sync_on_step=dist_sync_on_step)
+        super().__init__(dist_sync_on_step=dist_sync_on_step)
 
         self.threshold = threshold
 
