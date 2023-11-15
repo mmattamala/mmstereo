@@ -18,6 +18,9 @@ class ExportableCostVolumeFunction(torch.autograd.Function):
     def symbolic(g, left, right, num_disparities, is_right):
         assert not is_right
         serialized_data = struct.pack("<iiiii", num_disparities, 0, 0, 0, 0)
+        print(
+            f"ExportCostVolume: left {left.type().sizes()}, right {right.type().sizes()}"
+        )
         return g.op(
             "trt::TRT_PluginV2",
             left,
@@ -49,6 +52,7 @@ class ExportableCostVolume(nn.Module):
 class ExportableMatchabilityFunction(torch.autograd.Function):
     @staticmethod
     def symbolic(g, input):
+        print(f"ExportableMatchabilityFunction: input {input.type().sizes()}")
         return g.op(
             "trt::TRT_PluginV2",
             input,
@@ -75,6 +79,7 @@ class ExportableMatchability(nn.Module):
 class ExportableSoftArgminFunction(torch.autograd.Function):
     @staticmethod
     def symbolic(g, input):
+        print(f"ExportableSoftArgminFunction: input {input.type().sizes()}")
         return g.op(
             "trt::TRT_PluginV2",
             input,
@@ -104,6 +109,7 @@ class ExportableFlattenFunction(torch.autograd.Function):
 
     @staticmethod
     def symbolic(g, input, start_dim, end_dim):
+        print(f"ExportableFlattenFunction: input {input.type().sizes()}")
         # Only support this for now.
         assert start_dim == 1
         assert end_dim == 2

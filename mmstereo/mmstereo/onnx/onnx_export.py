@@ -7,13 +7,14 @@ import torch.nn as nn
 
 from mmstereo.args import TrainingConfig
 from mmstereo.layers.cost_volume import CostVolume
-from mmstereo.layers.matchability import Matchability
-from mmstereo.layers.soft_argmin import SoftArgmin
+
+# from mmstereo.layers.matchability import Matchability
+# from mmstereo.layers.soft_argmin import SoftArgmin
 from mmstereo.onnx.onnx_plugins import (
     ExportableCostVolume,
-    ExportableMatchability,
-    ExportableSoftArgmin,
-    ExportableFlatten,
+    # ExportableMatchability,
+    # ExportableSoftArgmin,
+    # ExportableFlatten,
 )
 
 
@@ -48,14 +49,14 @@ def fix_module(module):
             module._modules[child_module_name] = ExportableCostVolume(
                 num_disparities, is_right
             )
-        elif isinstance(child_module, Matchability):
-            module._modules[child_module_name] = ExportableMatchability()
-        elif isinstance(child_module, SoftArgmin):
-            module._modules[child_module_name] = ExportableSoftArgmin()
-        elif isinstance(child_module, nn.Flatten):
-            start_dim = int(child_module.start_dim)
-            end_dim = int(child_module.end_dim)
-            module._modules[child_module_name] = ExportableFlatten(start_dim, end_dim)
+        # elif isinstance(child_module, Matchability):
+        #     module._modules[child_module_name] = ExportableMatchability()
+        # elif isinstance(child_module, SoftArgmin):
+        #     module._modules[child_module_name] = ExportableSoftArgmin()
+        # elif isinstance(child_module, nn.Flatten):
+        #     start_dim = int(child_module.start_dim)
+        #     end_dim = int(child_module.end_dim)
+        #     module._modules[child_module_name] = ExportableFlatten(start_dim, end_dim)
         elif len(list(child_module.children())) > 0:
             fix_module(child_module)
 
@@ -84,6 +85,6 @@ def export_stereo_model(
         input_names=input_names,
         output_names=output_names,
         do_constant_folding=True,
-        enable_onnx_checker=True,
+        # enable_onnx_checker=True,
         opset_version=11,
     )
