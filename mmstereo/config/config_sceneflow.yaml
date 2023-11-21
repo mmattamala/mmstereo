@@ -1,7 +1,7 @@
 data:
   train:
     datasets:
-      - path: datasets/sceneflow/flying_things/train
+      - path: /home/matias/git/mmstereo/mmstereo/mmstereo/datasets/sceneflow/flying_things/train
         sim: true
         no_split: true
     transform:
@@ -14,7 +14,7 @@ data:
     num_workers: 8
   val:
     datasets:
-      - path: datasets/sceneflow/flying_things/val
+      - path: /home/matias/git/mmstereo/mmstereo/mmstereo/datasets/sceneflow/flying_things/val
         sim: true
         no_split: true
     batch_size: 1

@@ -39,7 +39,11 @@ def get_loggers(hparams):
 
 
 def get_tensorboard(loggers):
-    for logger in loggers:
-        if isinstance(logger, pl.loggers.TensorBoardLogger):
-            return logger
+    if isinstance(loggers, list):
+        for logger in loggers:
+            if isinstance(logger, pl.loggers.TensorBoardLogger):
+                return logger
+    elif isinstance(loggers, pl.loggers.TensorBoardLogger):
+        return loggers
+
     return None
