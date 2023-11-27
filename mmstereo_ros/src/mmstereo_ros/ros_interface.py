@@ -5,12 +5,15 @@ import math
 
 import rospy
 import message_filters
-from sensor_msgs.msg import Image, CameraInfo
+from sensor_msgs.msg import CompressedImage, CameraInfo, Image
 from cv_bridge import CvBridge
+from std_msgs.msg import Header
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+import cv2
 
 VIS_DISPARITY = 256
 FX = 1075.0
@@ -21,48 +24,57 @@ class RosInterface:
     def __init__(self):
         self.read_params()
         self.setup_ros()
+        self.setup_publishers()
 
     def read_params(self):
         """Read parameters from parameter server"""
 
         # Subscription topics
         self._img_l_topic = rospy.get_param(
-            "~img_l_topic", "/alphasense_driver_ros/cam0/color_rect/image"
+            "~img_l_topic", "/alphasense_driver_ros/cam0/color_rect/image/compressed"
         )
-        self._info_l_topic = rospy.get_param(
-            "~info_l_topic", "/alphasense_driver_ros/cam0/color_rect/camera_info"
-        )
+        # self._info_l_topic = rospy.get_param(
+        #     "~info_l_topic", "/alphasense_driver_ros/cam0/color_rect/camera_info"
+        # )
         self._img_r_topic = rospy.get_param(
-            "~img_r_topic", "/alphasense_driver_ros/cam1/color_rect/image"
+            "~img_r_topic", "/alphasense_driver_ros/cam1/color_rect/image/compressed"
         )
-        self._info_r_topic = rospy.get_param(
-            "~info_r_topic", "/alphasense_driver_ros/cam1/color_rect/camera_info"
-        )
+        # self._info_r_topic = rospy.get_param(
+        #     "~info_r_topic", "/alphasense_driver_ros/cam1/color_rect/camera_info"
+        # )
 
         # Other parameters
-        self._model_file = rospy.get_param("~model_file", "")
+        self._model_file = rospy.get_param("~model_file", "/root/mmstereo/model.pt")
+
+        print("Finished Reading Params")
 
         # Load model
         self._model = torch.jit.load(self._model_file)
+        print("Loaded Model")
 
     def setup_ros(self):
+        print("Setting up ROS")
         self._bridge = CvBridge()
-        self._img_l_sub = message_filters.Subscriber(self._img_l_topic, Image)
-        self._info_l_sub = message_filters.Subscriber(self._l_info_topic, CameraInfo)
-        self._img_r_sub = message_filters.Subscriber(self._r_image_topic, Image)
-        self._info_r_sub = message_filters.Subscriber(self._r_info_topic, CameraInfo)
+        self._img_l_sub = message_filters.Subscriber(self._img_l_topic, CompressedImage)
+        # self._info_l_sub = message_filters.Subscriber(self._l_info_topic, CameraInfo)
+        self._img_r_sub = message_filters.Subscriber(self._img_r_topic, CompressedImage)
+        # self._info_r_sub = message_filters.Subscriber(self._r_info_topic, CameraInfo)
 
         self._time_sync = message_filters.ApproximateTimeSynchronizer(
-            [self._img_l_sub, self._info_l_sub, self._img_r_sub, self._info_r_sub],
+            [self._img_l_sub, self._img_r_sub],
             10,
             slop=0.1,
         )
         self._time_sync.registerCallback(self.image_callback)
+    
+    def setup_publishers(self):  # Add this function
+        # Publisher for the disparity image
+        self._disparity_pub = rospy.Publisher("/disparity_image", Image, queue_size=10)
 
-    def image_callback(self, img_l_msg, info_l_msg, img_r_msg, info_r_msg):
+    def image_callback(self, img_l_msg, img_r_msg):
         # Convert to numpy
-        np_img_l = self._bridge.imgmsg_to_cv2(img_l_msg)
-        np_img_r = self._bridge.imgmsg_to_cv2(img_r_msg)
+        np_img_l = self._bridge.compressed_imgmsg_to_cv2(img_l_msg)
+        np_img_r = self._bridge.compressed_imgmsg_to_cv2(img_r_msg)
         height, width, _ = np_img_l.shape
 
         # Convert inputs from Numpy arrays scaled 0 to 255 to PyTorch tensors scaled from 0 to 1.
@@ -95,6 +107,22 @@ class RosInterface:
         print(disparity.shape)
         print(disparity_small.shape)
         print(matchability.shape)
+
+        print(disparity.type())
+
+        cpu_float_array = disparity.cpu().numpy()
+        cpu_float_array = cpu_float_array.squeeze()
+        header = Header(stamp=rospy.Time.now())
+        disparity_msg = self._bridge.cv2_to_imgmsg(cpu_float_array)
+        # print(disparity_msg.encoding)
+        disparity_msg.header = header
+        disparity_msg.encoding = "32FC1"
+        self._disparity_pub.publish(disparity_msg)
+
+        print("Published Image")
+
+        # cv2.imshow("vis", cpu_float_array)
+        # cv2.waitKey(0)
 
         # scale = disparity.shape[3] // disparity_small.shape[3]
 
